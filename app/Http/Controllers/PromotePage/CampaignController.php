@@ -4,35 +4,31 @@ namespace App\Http\Controllers\PromotePage;
 
 use App\Http\Controllers\API\ApiCampaignsController;
 use App\Http\Controllers\Controller;
-use App\Models\Campanhas;
-use FacebookAds\Object\AdAccount;
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Helpers\FunctionsController;
-
-use Facebook\FacebookResponse;
+use App\Models\Campanhas;
+use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
 
-    private const FOLDER = "promocionar-pagina";
+    private const FOLDER = "promocionar-pagina.campanhas";
     // https://github.com/facebook/facebook-php-business-sdk/blob/master/src/FacebookAds/Object/Values/CampaignObjectiveValues.php?fbclid=IwAR2uSzt-n4uKajPyYHLvWx9C7n1-_FwO8R_kDnfUGN4rA0Jo8QN6GKzn0RY
-    private $objectives = [
-        // 'APP_INSTALLS',
-        // 'BRAND_AWARENESS',
-        // 'CONVERSIONS',
-        // 'EVENT_RESPONSES',
-        // 'LEAD_GENERATION',
+    private const OBJECTIVES = [
+        'APP_INSTALLS',
+        'BRAND_AWARENESS',
+        'CONVERSIONS',
+        'EVENT_RESPONSES',
+        'LEAD_GENERATION',
         'LINK_CLICKS',
         // 'LOCAL_AWARENESS',
-        // 'MESSAGES',
-        // 'OFFER_CLAIMS',
+        'MESSAGES',
+        'OFFER_CLAIMS',
         'PAGE_LIKES',
-        // 'POST_ENGAGEMENT',
+        'POST_ENGAGEMENT',
         // 'PRODUCT_CATALOG_SALES',
-        // 'REACH',
+        'REACH',
         // 'STORE_VISITS',
-        // 'VIDEO_VIEWS'
+        'VIDEO_VIEWS'
     ];
 
     public function index()
@@ -47,7 +43,7 @@ class CampaignController extends Controller
             $campaigns[$i]["created_at"] = ($campaign_db) ? $campaign_db->created_at : "";
         }
 
-        return view(self::FOLDER . ".campanhas.index")->with([
+        return view(self::FOLDER . ".index")->with([
             "campaigns" => $campaigns
         ]);
     }
@@ -56,8 +52,8 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        return view(self::FOLDER . ".campanhas.crear")->with([
-            "objectives" => $this->objectives
+        return view(self::FOLDER . ".crear")->with([
+            "objectives" => self::OBJECTIVES
         ]);
     }
     /**
@@ -97,8 +93,8 @@ class CampaignController extends Controller
         $found = $fb->getCampaign($id);
 
         if ($found) {
-            return view(self::FOLDER . ".campanhas.ver")->with([
-                "objectives" => $this->objectives,
+            return view(self::FOLDER . ".ver")->with([
+                "objectives" => self::OBJECTIVES,
                 "campaign" => $fb->campaign
             ]);
         } else {

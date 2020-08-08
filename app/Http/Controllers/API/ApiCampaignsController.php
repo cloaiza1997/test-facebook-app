@@ -82,24 +82,29 @@ class ApiCampaignsController extends FacebookController
         return $found;
     }
 
-    public function updateCampaign($id,$name, $objective) {
+    public function updateCampaign($id, $name, $objective)
+    {
 
-        $found = $this->getCampaign($id);
+        try {
+            $found = $this->getCampaign($id);
 
-        if ($found) {
-            $fields = array();
-            $params = array(
-                'name' => $name,
-                'objective' => $objective,
-            );
-            $this->campaign->updateSelf($fields, $params);
+            if ($found) {
+                $fields = array();
+                $params = array(
+                    'name' => $name,
+                    'objective' => $objective,
+                );
+                $this->campaign->updateSelf($fields, $params);
 
-            $updated = true;
-        } else {
-            $updated = false;
+                $updated = true;
+            } else {
+                $updated = false;
+            }
+
+            return $updated;
+        } catch (\Throwable $th) {
+            dd("Error al editar la campaña {$name}", $th);
         }
-
-        return $updated;
     }
 
     /**
@@ -111,8 +116,14 @@ class ApiCampaignsController extends FacebookController
     {
         $found = $this->getCampaign($id);
 
-        if($found) {
-            $this->campaign->delete();
+        if ($found) {
+
+            try {
+                $this->campaign->delete();
+            } catch (\Throwable $th) {
+                dd("Error al eliminar la campaña", $th);
+            }
+
             $deleted = true;
         } else {
             $deleted = false;

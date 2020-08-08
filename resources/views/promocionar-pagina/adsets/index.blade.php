@@ -1,6 +1,6 @@
- <h3>Ad Sets</h3>
+ <h3>Grupos de Anuncios - Ad Sets</h3>
 
- <a href="{{ route('atset.create') }}" class="btn btn-primary">Crear Ad Set</a>
+ <a href="{{ route('ad-set.show', $campaign->id) }}" class="btn btn-primary">Crear Grupo</a>
 
  <br/>
 
