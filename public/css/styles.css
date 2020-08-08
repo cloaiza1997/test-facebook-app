@@ -1,0 +1,46 @@
+.content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+footer {
+    background: #4267b2;
+    color: white;
+    width: 100%;
+}
+
+header {
+    background: #4267b2;
+    color: white;
+}
+
+.btn-primary {
+    background: #4267b2 !important;
+    border-color: #4267b2 !important;
+}
+
+.btn-primary:hover {
+    background: #1f3b72 !important;
+    border-color: #1f3b72 !important;
+}
+
+table {
+    border: 1px solid;
+    width: 80%;
+}
+
+tr {
+    border: 1px solid;
+}
+
+.center {
+    text-align: center;
+}
+
+.message {
+    padding: 5px;
+    border-radius: 5px;
+    background: #c0e3ff;
+}

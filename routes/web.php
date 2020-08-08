@@ -17,4 +17,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get("/", "TestController@index");
+Route::get("/", function() {
+    return view("index");
+});
+
+// Promocionar Página
+// Campaña
+Route::resource("campaign", "PromotePage\CampaignController");
+Route::get("campaign.delete/{id}", "PromotePage\CampaignController@delete");
+// At Set
+Route::resource("atset", "PromotePage\AtSetController");
+
