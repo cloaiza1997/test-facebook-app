@@ -77,6 +77,8 @@
 
     @include('layouts.partials.message')
     <hr />
+    @include('promocionar-pagina.ads.index')
+    <hr />
     @include('promocionar-pagina.adcreatives.index')
 
 @endsection

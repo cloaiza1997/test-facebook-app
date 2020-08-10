@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\PromotePage;
 
+use App\Http\Controllers\API\ApiAdController;
 use App\Http\Controllers\API\ApiAdSetController;
 use App\Http\Controllers\API\ApiAdCreativeController;
 use App\Http\Controllers\Controller;
@@ -59,8 +60,8 @@ class AdSetController extends Controller
         // Se extrae el id de la campaña que viene de la url
         $id_campaign = $param[0];
         $id_ad_set = $param[1];
-
-        $fb = new ApiAdSetController();
+        // Se instancia la clase del API del anuncio que hereda de Ad_Set y Ad_Set de Campaign
+        $fb = new ApiAdController();
         // Se pasa el id de la campaña
         $fb->id_campaign = $id_campaign;
         // Se obtiene la campaña a la que pertenece el grupo
@@ -69,7 +70,9 @@ class AdSetController extends Controller
         // De la fecha se obtiene solo se obtiene el YYYY-MM-DD
         $fb->ad_set->start_time = explode("T", $fb->ad_set->start_time)[0];
         $fb->ad_set->end_time = explode("T", $fb->ad_set->end_time)[0];
-
+        // Se obtiene el listado de anuncios del grupo
+        $ads = $fb->getAds()["data"];
+        // Se extraen los contenidos
         $ad_creatives = (new ApiAdCreativeController())->getAdCreatives()["data"];
 
         Session()->put("url-back", "{$fb->campaign->id}-{$fb->ad_set->id}");
@@ -77,6 +80,7 @@ class AdSetController extends Controller
         return view(self::FOLDER . ".ver")->with([
             "campaign" => $fb->campaign,
             "ad_set" => $fb->ad_set,
+            "ads" => $ads,
             "ad_creatives" => $ad_creatives,
             "billing_events" => $fb::BILLING_EVENTS,
             "optimization_goals" => $fb::OPTIMIZATION_GOALS,

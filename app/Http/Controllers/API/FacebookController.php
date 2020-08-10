@@ -58,34 +58,4 @@ class FacebookController extends Controller
             dd($data["message"], $th);
         }
     }
-
-    public function createAd($ad_set_id, $creative_id)
-    {
-        $fields = array();
-        $params = array(
-            'name' => 'My Ad',
-            'adset_id' => $ad_set_id,
-            'creative' => array('creative_id' => $creative_id),
-            'status' => 'PAUSED',
-        );
-        $ad = (new AdAccount(self::AD_ACCOUNT_ID))->createAd(
-            $fields,
-            $params
-        );
-        return $ad;
-    }
-
-    function getPreviews($ad_id)
-    {
-        $fields = array();
-        $params = array(
-            'ad_format' => 'DESKTOP_FEED_STANDARD',
-        );
-        $response = json_encode((new Ad($ad_id))->getPreviews(
-            $fields,
-            $params
-        )->getResponse()->getContent(), JSON_PRETTY_PRINT);
-
-        return $response;
-    }
 }

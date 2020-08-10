@@ -28,4 +28,6 @@ Route::resource("campaign", "PromotePage\CampaignController");
 Route::resource("ad-set", "PromotePage\AdSetController");
 // At Creative
 Route::resource("ad-creative", "PromotePage\AdCreativeController");
+// Ad
+Route::resource("ad", "PromotePage\AdController");
 

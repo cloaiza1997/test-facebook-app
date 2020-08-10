@@ -10,21 +10,22 @@ class ApiCampaignsController extends FacebookController
     public $campaign;
     // https://github.com/facebook/facebook-php-business-sdk/blob/master/src/FacebookAds/Object/Values/CampaignObjectiveValues.php?fbclid=IwAR2uSzt-n4uKajPyYHLvWx9C7n1-_FwO8R_kDnfUGN4rA0Jo8QN6GKzn0RY
     public const OBJECTIVES = [
-        'APP_INSTALLS',
-        'BRAND_AWARENESS',
-        'CONVERSIONS',
-        'EVENT_RESPONSES',
-        'LEAD_GENERATION',
-        'LINK_CLICKS',
-        // 'LOCAL_AWARENESS',
-        'MESSAGES',
-        'OFFER_CLAIMS',
+        // 'APP_INSTALLS',
+        // 'BRAND_AWARENESS',
+        // 'CONVERSIONS',
+        // 'EVENT_RESPONSES',
+        // 'LEAD_GENERATION',
+        // 'LINK_CLICKS',
+        // 'MESSAGES',
+        // 'OFFER_CLAIMS',
         'PAGE_LIKES',
-        'POST_ENGAGEMENT',
-        // 'PRODUCT_CATALOG_SALES',
-        'REACH',
+        // 'POST_ENGAGEMENT',
+        // 'REACH',
+        // 'VIDEO_VIEWS'
+        // ** Requieren otros parámetros
+        // 'LOCAL_AWARENESS',
         // 'STORE_VISITS',
-        'VIDEO_VIEWS'
+        // 'PRODUCT_CATALOG_SALES',
     ];
     /**
      * Crear campañas en la API

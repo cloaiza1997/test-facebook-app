@@ -9,7 +9,6 @@ use FacebookAds\Object\Campaign;
 
 class ApiAdSetController extends ApiCampaignsController
 {
-
     public $ad_set;
     public $billing_event;
     public $daily_budget;
@@ -20,44 +19,44 @@ class ApiAdSetController extends ApiCampaignsController
     public $start_time;
     // Constante de los eventos de facturación
     public const BILLING_EVENTS = [
-        'APP_INSTALLS',
-        'CLICKS',
+        // 'APP_INSTALLS',
+        // 'CLICKS',
         'IMPRESSIONS',
-        'LINK_CLICKS',
-        'NONE',
-        'OFFER_CLAIMS',
-        'PAGE_LIKES',
-        'POST_ENGAGEMENT',
-        'THRUPLAY',
+        // 'LINK_CLICKS',
+        // 'NONE',
+        // 'OFFER_CLAIMS',
+        // 'PAGE_LIKES',
+        // 'POST_ENGAGEMENT',
+        // 'THRUPLAY',
     ];
     // Constante de los objetivos de optimización
     public const OPTIMIZATION_GOALS = [
-        'AD_RECALL_LIFT',
-        'APP_DOWNLOADS',
-        'APP_INSTALLS',
-        'BRAND_AWARENESS',
-        'CLICKS',
-        'DERIVED_EVENTS',
-        'ENGAGED_USERS',
-        'EVENT_RESPONSES',
-        'IMPRESSIONS',
-        'LANDING_PAGE_VIEWS',
-        'LEAD_GENERATION',
-        'LINK_CLICKS',
-        'NONE',
-        'OFFER_CLAIMS',
-        'OFFSITE_CONVERSIONS',
-        'PAGE_ENGAGEMENT',
+        // 'AD_RECALL_LIFT',
+        // 'APP_DOWNLOADS',
+        // 'APP_INSTALLS',
+        // 'BRAND_AWARENESS',
+        // 'CLICKS',
+        // 'DERIVED_EVENTS',
+        // 'ENGAGED_USERS',
+        // 'EVENT_RESPONSES',
+        // 'IMPRESSIONS',
+        // 'LANDING_PAGE_VIEWS',
+        // 'LEAD_GENERATION',
+        // 'LINK_CLICKS',
+        // 'NONE',
+        // 'OFFER_CLAIMS',
+        // 'OFFSITE_CONVERSIONS',
+        // 'PAGE_ENGAGEMENT',
         'PAGE_LIKES',
-        'POST_ENGAGEMENT',
-        'QUALITY_LEAD',
-        'REACH',
-        'REPLIES',
-        'SOCIAL_IMPRESSIONS',
-        'THRUPLAY',
-        'TWO_SECOND_CONTINUOUS_VIDEO_VIEWS',
-        'VALUE',
-        'VISIT_INSTAGRAM_PROFILE',
+        // 'POST_ENGAGEMENT',
+        // 'QUALITY_LEAD',
+        // 'REACH',
+        // 'REPLIES',
+        // 'SOCIAL_IMPRESSIONS',
+        // 'THRUPLAY',
+        // 'TWO_SECOND_CONTINUOUS_VIDEO_VIEWS',
+        // 'VALUE',
+        // 'VISIT_INSTAGRAM_PROFILE',
     ];
     /**
      * Crea el grupo de anuncios ligado a una campaña
@@ -77,6 +76,7 @@ class ApiAdSetController extends ApiCampaignsController
             'billing_event' => $this->billing_event,
             'daily_budget' => $this->daily_budget,
             'bid_amount' => '20',
+            'promoted_object' => array('page_id' =>  $this->page_id),
             // 'promoted_object' => array('page_id' => self::PAGE_ID),
             'targeting' => array('geo_locations' => array('countries' => array('US'))),
             'status' => 'PAUSED',

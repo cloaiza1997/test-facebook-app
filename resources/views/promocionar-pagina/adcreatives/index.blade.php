@@ -10,7 +10,7 @@
             <th>Id</th>
             <th>Nombre</th>
             <th>Publicación</th>
-            <th colspan="2">Acción</th>
+            <th>Acción</th>
         </tr>
     </thead>
     <tbody>
@@ -20,15 +20,11 @@
                 <td>{{ substr($ad_creative['name'], 0, 30) }} ...</td>
                 <td>{{ explode('_', $ad_creative['object_story_id'])[1] }}</td>
                 <td>
-                    <a href="" class="btn btn-primary">Crear Anuncio</a>
+                    @section('action'){{ route('ad-creative.destroy', $ad_creative['id']) }}
+                    @overwrite
+                    @include('layouts.partials.form-delete')
                 </td>
-                <td>
-                    @section('action')
-                        {{ route('ad-creative.destroy', $ad_creative['id']) }}
-                        @overwrite
-                        @include('layouts.partials.form-delete')
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
