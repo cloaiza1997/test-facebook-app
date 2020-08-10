@@ -18,5 +18,9 @@ Página de Facebook utilizada
 Ejemplo de publicación
 </a>
 
+• Ids de Publicaciones de prueba
+
+    592729028082595
+    595050024517162
 
 • En el archivo data_base.sql se encuentra la base de datos
