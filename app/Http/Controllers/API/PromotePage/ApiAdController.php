@@ -6,7 +6,6 @@ use App\Http\Controllers\API\PromotePage\ApiAdSetController;
 use FacebookAds\Object\Ad;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\AdSet;
-use Illuminate\Http\Request;
 
 class ApiAdController extends ApiAdSetController
 {

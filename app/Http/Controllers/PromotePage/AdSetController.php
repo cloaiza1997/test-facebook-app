@@ -35,8 +35,11 @@ class AdSetController extends Controller
         if ($deleted) {
             // Se obtiene el grupo de la base de datos
             $ad_set = GruposAnuncios::where("id_fb", $id_ad_set)->first();
-            // Se eliminan todos los anuncios relacionados
-            DB::delete("DELETE FROM anuncios WHERE id_grupo = {$ad_set->id}");
+            // + Existe el grupo
+            if ($ad_set) {
+                // Se eliminan todos los anuncios relacionados
+                DB::delete("DELETE FROM anuncios WHERE id_grupo = {$ad_set->id}");
+            }
             // Se elimina el grupo
             $success = ($ad_set) ? $ad_set->delete() : false;
         } else {

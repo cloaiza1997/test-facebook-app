@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\PromotePage;
 
 use App\Http\Controllers\API\FacebookController;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\AdCreative;
-use Illuminate\Http\Request;
 
 class ApiAdCreativeController extends FacebookController
 {
