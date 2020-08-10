@@ -59,24 +59,6 @@ class FacebookController extends Controller
         }
     }
 
-
-    public function createAdCreative($id_post)
-    {
-        $fields = array();
-        $params = array(
-            'name' => 'My Creative',
-            'object_story_id' => self::PAGE_ID . "_" . $id_post,
-            'title' => 'My Page Like Ad',
-            'body' => 'Like My Page',
-            'image_url' => 'https://lh3.googleusercontent.com/ogw/ADGmqu92J_XEZey-4rOcy8dB637oHg6gfRG7b7QKTQhb=s83-c-mo',
-        );
-        $creative = (new AdAccount(self::AD_ACCOUNT_ID))->createAdCreative(
-            $fields,
-            $params
-        );
-        return $creative;
-    }
-
     public function createAd($ad_set_id, $creative_id)
     {
         $fields = array();

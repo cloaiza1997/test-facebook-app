@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PromotePage;
 
 use App\Http\Controllers\API\ApiAdSetController;
+use App\Http\Controllers\API\ApiAdCreativeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\FunctionsController;
 use App\Models\Campanhas;
@@ -69,9 +70,14 @@ class AdSetController extends Controller
         $fb->ad_set->start_time = explode("T", $fb->ad_set->start_time)[0];
         $fb->ad_set->end_time = explode("T", $fb->ad_set->end_time)[0];
 
+        $ad_creatives = (new ApiAdCreativeController())->getAdCreatives()["data"];
+
+        Session()->put("url-back", "{$fb->campaign->id}-{$fb->ad_set->id}");
+
         return view(self::FOLDER . ".ver")->with([
             "campaign" => $fb->campaign,
             "ad_set" => $fb->ad_set,
+            "ad_creatives" => $ad_creatives,
             "billing_events" => $fb::BILLING_EVENTS,
             "optimization_goals" => $fb::OPTIMIZATION_GOALS,
         ]);

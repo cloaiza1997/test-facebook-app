@@ -6,7 +6,6 @@ use App\Http\Controllers\API\ApiCampaignsController;
 use DateTime;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\Campaign;
-use Illuminate\Http\Request;
 
 class ApiAdSetController extends ApiCampaignsController
 {

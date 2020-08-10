@@ -22,13 +22,15 @@
         <div class="form-group row">
             <label for="start_time" class="col-sm-4 col-form-label">Inicio</label>
             <div class="col-sm-8">
-                <input type="date" class="form-control" id="start_time" name="start_time" value="{{ $ad_set->start_time }}" min="{{ Date('Y-m-d') }}" required>
+                <input type="date" class="form-control" id="start_time" name="start_time" value="{{ $ad_set->start_time }}"
+                    min="{{ Date('Y-m-d') }}" required>
             </div>
         </div>
         <div class="form-group row">
             <label for="end_time" class="col-sm-4 col-form-label">Fin</label>
             <div class="col-sm-8">
-                <input type="date" class="form-control" id="end_time" name="end_time" value="{{ $ad_set->end_time }}" min="{{ Date('Y-m-d') }}" required>
+                <input type="date" class="form-control" id="end_time" name="end_time" value="{{ $ad_set->end_time }}"
+                    min="{{ Date('Y-m-d') }}" required>
             </div>
         </div>
         <div class="form-group row">
@@ -37,7 +39,9 @@
                 <select class="form-control" id="billing_event" name="billing_event" required>
                     <option disabled selected></option>
                     @foreach ($billing_events as $event)
-                        <option value="{{ $event }}" @if($ad_set->billing_event == $event) selected @endif>{{ $event }}</option>
+                        <option value="{{ $event }}" @if ($ad_set->billing_event == $event)
+                            selected
+                    @endif>{{ $event }}</option>
                     @endforeach
                 </select>
             </div>
@@ -48,7 +52,9 @@
                 <select class="form-control" id="optimization_goal" name="optimization_goal" required>
                     <option disabled selected></option>
                     @foreach ($optimization_goals as $goal)
-                        <option value="{{ $goal }}" @if($ad_set->optimization_goal == $goal) selected @endif>{{ $goal }}</option>
+                        <option value="{{ $goal }}" @if ($ad_set->optimization_goal == $goal)
+                            selected
+                    @endif>{{ $goal }}</option>
                     @endforeach
                 </select>
             </div>
@@ -56,7 +62,8 @@
         <div class="form-group row">
             <label for="daily_budget" class="col-sm-4 col-form-label">Presupuesto Diario</label>
             <div class="col-sm-8">
-                <input type="number" class="form-control" id="daily_budget" name="daily_budget" value="{{ $ad_set->daily_budget }}" required>
+                <input type="number" class="form-control" id="daily_budget" name="daily_budget"
+                    value="{{ $ad_set->daily_budget }}" required>
             </div>
         </div>
     </form>
@@ -64,10 +71,12 @@
     <div class="flx">
         <button type="sumit" class="btn btn-success" form="frm-update-ad-set">Editar</button>
         &nbsp;
-        @section('action', route('ad-set.destroy', "{$campaign->id}-{$ad_set->id}"))
+    @section('action', route('ad-set.destroy', "{$campaign->id}-{$ad_set->id}"))
         @include('layouts.partials.form-delete')
     </div>
 
     @include('layouts.partials.message')
+    <hr />
+    @include('promocionar-pagina.adcreatives.index')
 
 @endsection
