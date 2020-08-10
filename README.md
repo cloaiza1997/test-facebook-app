@@ -24,3 +24,5 @@ Ejemplo de publicación
     595050024517162
 
 • En el archivo data_base.sql se encuentra la base de datos
+
+• Los selects de Objetivos de Campaña, Evento de Facturación, Objeto de Optimización solo muestran una opción ya que desde el controlador están inhabilitadas las demás debido a que cada opción requiere de unos parámetros adicionales lo cual conlleva a tener un formulario más dinámico que reaccione de acuerdo a cada selección, haciendo la prueba más extensa.
