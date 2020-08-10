@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\PromotePage;
 
 use App\Http\Controllers\API\FacebookController;
 use FacebookAds\Object\AdAccount;

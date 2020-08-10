@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class ApiAdCreativeController extends FacebookController
 {
+    public $ad_creative;
     public $body;
     public $id_post;
     public $image_url;
@@ -47,18 +48,56 @@ class ApiAdCreativeController extends FacebookController
     /**
      * Elimina un contenido
      * @param number $id Id del elemento a borrar
+     * @return boolean $deleted Indica si fue eliminado
      */
     public function deleteAdCreative($id)
     {
-        (new AdCreative($id))->deleteSelf(
-            [],
-            []
-        );
+        $data = [
+            // Elimina el contenido
+            "function_call_back" => function () use ($id) {
+
+                $deleted = false;
+                (new AdCreative($id))->deleteSelf(
+                    [],
+                    []
+                );
+                $deleted = true;
+
+                return $deleted;
+            },
+            "message" => "Error al eliminar la anuncio",
+        ];
+
+        $deleted = $this->executeAction($data);
+
+        return $deleted;
+    }
+    /**
+     * Obtiene un anuncio
+     * @param number $id Id del anuncio
+     * @return boolean $found Indica si el anuncio fue encontrado
+     */
+    public function getCreative($id)
+    {
+        // Se obtienen los anuncios
+        $ad_creatives = $this->getAdCreatives(true);
+
+        $found = false;
+        // Se recorren para buscar el anuncio
+        foreach ($ad_creatives as $ad_creative) {
+            if ($ad_creative->id == $id) {
+                $this->ad_creative = $ad_creative;
+                $found = true;
+            }
+        }
+
+        return $found;
     }
     /**
      * Obtiene el listado de contenidos creados
+     * @param boolean $return_object Indica si se retorna un objeto o un arreglo
      */
-    public function getAdCreatives()
+    public function getAdCreatives($return_object = false)
     {
         $fields = array(
             'name',
@@ -71,26 +110,11 @@ class ApiAdCreativeController extends FacebookController
         $list_creatives = (new AdAccount($this->ad_account_id))->getAdCreatives(
             $fields,
             $params
-        )->getResponse()->getContent();
+        );
+        if (!$return_object) {
+            $list_creatives = $list_creatives->getResponse()->getContent();
+        }
 
         return $list_creatives;
-    }
-
-
-
-    public function getAdCreative()
-    {
-
-        $fields = array(
-            'name',
-            'object_story_id',
-            'image_url',
-        );
-        $params = array();
-        $ad = (new AdCreative(120330000024732904))->getSelf(
-            $fields,
-            $params
-        );
-        dd($ad);
     }
 }

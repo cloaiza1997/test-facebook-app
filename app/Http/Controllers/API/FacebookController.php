@@ -7,13 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use FacebookAds\Api;
 use FacebookAds\Logger\CurlLogger;
-use FacebookAds\Object\Ad;
-use FacebookAds\Object\AdAccount;
-use FacebookAds\Object\AdCreative;
-use FacebookAds\Object\AdPreview;
-use FacebookAds\Object\AdSet;
-use FacebookAds\Object\Campaign;
-use FacebookAds\Object\Fields\CampaignFields;
 
 use App\Models\Parametros;
 
@@ -55,6 +48,7 @@ class FacebookController extends Controller
             // Ejecuta la función de callback
             return $data["function_call_back"]();
         } catch (\Throwable $th) {
+            // include_once(base_path() . '\resources\views\index.blade.php');
             dd($data["message"], $th);
         }
     }

@@ -2,10 +2,12 @@
 
 @section('content')
 
+    <a href="{{ url('/') }}" class="btn btn-secondary">Regresar</a>
+    <br />
     <h2>Promocionar Página</h2>
-    <br/>
-    <h3>Campañas {{ count($campaigns) }}</h3>
-    <br/>
+    <br />
+    <h3>Campañas ({{ count($campaigns) }})</h3>
+    <br />
     <a href="{{ route('campaign.create') }}" class="btn btn-primary">Crear Campaña</a>
 
     @include('layouts.partials.message')
@@ -34,12 +36,12 @@
                     <td>
                         @section('action')
                             {{ route('campaign.destroy', $campaign['id']) }}
-                        @overwrite
-                        @include('layouts.partials.form-delete')
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                            @overwrite
+                            @include('layouts.partials.form-delete')
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-@endsection
+    @endsection

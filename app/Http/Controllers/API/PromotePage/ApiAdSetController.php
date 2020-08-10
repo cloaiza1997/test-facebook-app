@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\PromotePage;
 
-use App\Http\Controllers\API\ApiCampaignsController;
+use App\Http\Controllers\API\PromotePage\ApiCampaignsController;
 use DateTime;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\Campaign;

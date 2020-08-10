@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\PromotePage;
 
-use App\Http\Controllers\API\ApiAdSetController;
-use App\Http\Controllers\API\ApiCampaignsController;
+use App\Http\Controllers\API\PromotePage\ApiCampaignsController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\FunctionsController;
 use App\Models\Campanhas;
+use App\Models\GruposAnuncios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
 {
@@ -56,7 +57,23 @@ class CampaignController extends Controller
         // + Se elimina de la base de datos
         if ($deleted) {
             $campaign = Campanhas::where("id_fb", $id)->first();
-            $success = ($campaign) ? $campaign->delete() : false;
+            // + Campaña en la base de datos, se elimina
+            if($campaign) {
+                // Se consultan los grupos
+                $ad_sets = GruposAnuncios::where("id_campanha", $campaign->id)->get();
+                // Se recorren para eliminar
+                foreach ($ad_sets as $ad_set) {
+                    // Se eliminan todos los anuncios relacionados al grupo
+                    DB::delete("DELETE FROM anuncios WHERE id_grupo = {$ad_set->id}");
+                    $ad_set->delete();
+                }
+                // Se elimina la campaña
+                $campaign->delete();
+                $success = true;
+            } else {
+                $success = false;
+
+            }
         } else {
             $success = false;
         }

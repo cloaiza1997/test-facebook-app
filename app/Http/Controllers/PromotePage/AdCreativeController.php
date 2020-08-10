@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\PromotePage;
 
-use App\Http\Controllers\API\ApiAdCreativeController;
+use App\Http\Controllers\API\PromotePage\ApiAdCreativeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\FunctionsController;
 use App\Models\Contenido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdCreativeController extends Controller
 {
@@ -18,6 +19,38 @@ class AdCreativeController extends Controller
     public function create()
     {
         return view(self::FOLDER . ".crear");
+    }
+    /**
+     * Elimina un contenido de la base de datos y la API
+     * @param number $id Id del elemento a eliminar
+     */
+    public function destroy($id)
+    {
+        // Se elimina de la API
+        $fb = new ApiAdCreativeController();
+        $fb->deleteAdCreative($id);
+        // Se consulta en la base de datos
+        $content = Contenido::where("id_fb", $id)->first();
+        // + Contenido encontrado
+        if($content) {
+            // Se eliminan todos los anuncios relacionados
+            DB::delete("DELETE FROM anuncios WHERE id_contenido = {$content->id}");
+            $content->delete();
+            $deleted = true;
+        } else {
+            $deleted = false;
+        }
+
+        $data = [
+            "success" => $deleted,
+            "text" => "Eliminación del Contenido \"{$id}\"",
+            "return_function" => function () {
+                $param = Session()->get('url-back');
+                return redirect()->route("ad-set.edit", $param);
+            }
+        ];
+
+        return FunctionsController::returnWithMessageValidation($data);
     }
     /**
      *
@@ -51,31 +84,6 @@ class AdCreativeController extends Controller
         $data = [
             "success" => $success,
             "text" => "Creación de Contenido",
-            "return_function" => function () {
-                $param = Session()->get('url-back');
-                return redirect()->route("ad-set.edit", $param);
-            }
-        ];
-
-        return FunctionsController::returnWithMessageValidation($data);
-    }
-    /**
-     * Elimina un contenido de la base de datos y la API
-     * @param number $id Id del elemento a eliminar
-     */
-    public function destroy($id)
-    {
-        // Se elimina de la API
-        $fb = new ApiAdCreativeController();
-        $fb->deleteAdCreative($id);
-        // Se consulta en la base de datos
-        $content = Contenido::where("id_fb", $id)->first();
-        // Se elimina
-        $deleted = ($content) ? $content->delete() : false;
-
-        $data = [
-            "success" => $deleted,
-            "text" => "Eliminación del Contenido \"{$id}\"",
             "return_function" => function () {
                 $param = Session()->get('url-back');
                 return redirect()->route("ad-set.edit", $param);

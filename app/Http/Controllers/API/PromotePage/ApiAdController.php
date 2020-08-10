@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\PromotePage;
 
-use App\Http\Controllers\API\ApiAdSetController;
+use App\Http\Controllers\API\PromotePage\ApiAdSetController;
 use FacebookAds\Object\Ad;
 use FacebookAds\Object\AdAccount;
-use FacebookAds\Object\AdCreative;
 use FacebookAds\Object\AdSet;
 use Illuminate\Http\Request;
 
@@ -59,7 +58,8 @@ class ApiAdController extends ApiAdSetController
     public function getAds($return_obj = false)
     {
         $fields = array(
-            "name"
+            "name",
+            "creative"
         );
         $params = array();
         $list_ads = (new AdSet($this->ad_set->id))->getAds(

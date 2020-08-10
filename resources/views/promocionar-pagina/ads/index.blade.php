@@ -8,6 +8,7 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Id Contenido</th>
             <th>Nombre</th>
             <th colspan="2">Acción</th>
         </tr>
@@ -16,6 +17,7 @@
         @foreach ($ads as $ad)
             <tr>
                 <td>{{ $ad['id'] }}</td>
+                <td>{{ $ad['creative']['id'] }}</td>
                 <td>{{ $ad['name'] }}</td>
                 <td>
                     <a href="{{ route('ad.show', $ad['id']) }}" class="btn btn-info">Ver</a>

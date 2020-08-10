@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\PromotePage;
 
-use App\Http\Controllers\API\ApiAdController;
+use App\Http\Controllers\API\PromotePage\ApiAdController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\FunctionsController;
 use App\Models\Anuncios;
@@ -31,8 +31,6 @@ class AdController extends Controller
         $fb->getAdSet($id_ad_set);
         // Se extraen todos los registros de la tabla
         $ad_creatives = Contenido::all();
-
-        dd($fb->getPreviews());
 
         return view(self::FOLDER . ".crear")->with([
             "ad_creatives" => $ad_creatives,
@@ -109,7 +107,9 @@ class AdController extends Controller
     public function show($id)
     {
         $fb = new ApiAdController();
+        // Se obtien la avista previa del anuncio
         $preview = $fb->getPreviews($id)["data"][0]["body"];
+        // Se reemplaza un caracter &
         $preview = str_replace("&amp;", "&", $preview);
 
         return view(self::FOLDER . ".ver")->with([
