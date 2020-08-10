@@ -43,6 +43,21 @@ class FacebookController extends Controller
         $api = Api::init($this->app_id, $this->app_secret, $this->access_token);
         $api->setLogger(new CurlLogger());
     }
+    /**
+     * Ejecuta una función de la API la cual puede generar una excepción. Evita utilizar el try catch en cada método que ejecuta una acción con la API
+     * @param array $data[function_call_back,message]
+     *  function_call_back: Función a ejecutar dentro del try catch
+     *  message: Mensaje a mostrar en caso de error
+     */
+    public function executeAction($data)
+    {
+        try {
+            // Ejecuta la función de callback
+            return $data["function_call_back"]();
+        } catch (\Throwable $th) {
+            dd($data["message"], $th);
+        }
+    }
 
 
     public function createAdCreative($id_post)

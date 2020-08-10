@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\PromotePage;
 
+use App\Http\Controllers\API\ApiAdSetController;
 use App\Http\Controllers\API\ApiCampaignsController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\FunctionsController;
@@ -10,27 +11,12 @@ use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
-
+    // Constante con la ruta de la carpeta de las vistas
     private const FOLDER = "promocionar-pagina.campanhas";
-    // https://github.com/facebook/facebook-php-business-sdk/blob/master/src/FacebookAds/Object/Values/CampaignObjectiveValues.php?fbclid=IwAR2uSzt-n4uKajPyYHLvWx9C7n1-_FwO8R_kDnfUGN4rA0Jo8QN6GKzn0RY
-    private const OBJECTIVES = [
-        'APP_INSTALLS',
-        'BRAND_AWARENESS',
-        'CONVERSIONS',
-        'EVENT_RESPONSES',
-        'LEAD_GENERATION',
-        'LINK_CLICKS',
-        // 'LOCAL_AWARENESS',
-        'MESSAGES',
-        'OFFER_CLAIMS',
-        'PAGE_LIKES',
-        'POST_ENGAGEMENT',
-        // 'PRODUCT_CATALOG_SALES',
-        'REACH',
-        // 'STORE_VISITS',
-        'VIDEO_VIEWS'
-    ];
-
+    /**
+     * Muesta el listado de campañas creadas
+     * @return view index Vista del listado de campañas
+     */
     public function index()
     {
         $fb = new ApiCampaignsController();
@@ -52,15 +38,17 @@ class CampaignController extends Controller
      */
     public function create()
     {
+        $fb = new ApiCampaignsController();
+
         return view(self::FOLDER . ".crear")->with([
-            "objectives" => self::OBJECTIVES
+            "objectives" => $fb::OBJECTIVES
         ]);
     }
     /**
      * Elina una campaña
      * @param number $id Id de la campaña a eliminar
      */
-    public function delete($id)
+    public function destroy($id)
     {
         // Se elimina de la API la campaña
         $fb = new ApiCampaignsController();
@@ -76,7 +64,7 @@ class CampaignController extends Controller
         $data = [
             "success" => $success,
             "text" => "Eliminación de Campañana \"{$id}\"",
-            "return_function" => function () use ($id) {
+            "return_function" => function () {
                 return redirect("campaign");
             }
         ];
@@ -89,13 +77,22 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        $fb = new ApiCampaignsController();
-        $found = $fb->getCampaign($id);
-
+        // Se instancia obtienen los datos de la campaña a editar
+        $fb_campaign = new ApiCampaignsController();
+        $found = $fb_campaign->getCampaign($id);
+        // + Campaña encontrada | - Campaña no encontrada
         if ($found) {
+            // Se obtienen los grupos de la campaña
+            $fb_ad_set = new AdSetController();
+            // Se pasa el id de la campaña
+            $fb_ad_set->id_campaign = $id;
+            // Se obtienen los grupos de la campaña
+            $ad_sets = $fb_ad_set->getAdSets();
+
             return view(self::FOLDER . ".ver")->with([
-                "objectives" => self::OBJECTIVES,
-                "campaign" => $fb->campaign
+                "objectives" => $fb_campaign::OBJECTIVES,
+                "campaign" => $fb_campaign->campaign,
+                "ad_sets" => $ad_sets,
             ]);
         } else {
             return redirect("campaign");

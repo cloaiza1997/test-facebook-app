@@ -1,4 +1,4 @@
- <h3>Grupos de Anuncios - Ad Sets</h3>
+ <h3>Grupos de Anuncios - Ad Sets ({{ count($ad_sets) }})</h3>
 
  <a href="{{ route('ad-set.show', $campaign->id) }}" class="btn btn-primary">Crear Grupo</a>
 
@@ -9,26 +9,34 @@
          <tr>
              <th>Id</th>
              <th>Nombre</th>
-             <th>Objetivo</th>
-             <th>Fecha</th>
+             <th>Inicio</th>
+             <th>Fin</th>
+             <th>Ppto Diario</th>
+             <th>Objetivo de Optimización</th>
+             <th>Evento de Facturación</th>
+             <th>Creación</th>
              <th colspan="2">Acción</th>
          </tr>
      </thead>
      <tbody>
-         {{-- @foreach ($campaigns as $campaign)
+         @foreach ($ad_sets as $ad_set)
              <tr>
-                 <td>{{ $campaign['id'] }}</td>
-                 <td>{{ $campaign['name'] }}</td>
-                 <td>{{ $campaign['objective'] }}</td>
-                 <td>{{ $campaign['created_at'] }}</td>
+                 <td>{{ $ad_set['id'] }}</td>
+                 <td>{{ $ad_set['name'] }}</td>
+                 <td>{{ $ad_set['start_time'] }}</td>
+                 <td>{{ $ad_set['end_time'] }}</td>
+                 <td>$ {{ $ad_set['daily_budget'] }}</td>
+                 <td>{{ $ad_set['optimization_goal'] }}</td>
+                 <td>{{ $ad_set['billing_event'] }}</td>
+                 <td>{{ $ad_set['created_at'] }}</td>
                  <td>
-                     <a href="{{ route('campaign.edit', $campaign['id']) }}" class="btn btn-primary">Ver</a>
+                     <a href="{{ route('ad-set.edit', $ad_set['id']) }}" class="btn btn-primary">Ver</a>
                  </td>
                  <td>
-                     <a href="{{ url('campaign.delete', ['id' => $campaign['id']]) }}"
-                         class="btn btn-danger">Eliminar</a>
+                    @section('action', route('ad-set.destroy', "{$campaign->id}-{$ad_set['id']}"))
+                    @include('layouts.partials.form-delete')
                  </td>
              </tr>
-         @endforeach --}}
+         @endforeach
      </tbody>
  </table>
