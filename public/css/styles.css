@@ -5,6 +5,12 @@
     text-align: center;
 }
 
+.flx {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
 footer {
     background: #4267b2;
     color: white;

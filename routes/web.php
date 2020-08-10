@@ -24,7 +24,6 @@ Route::get("/", function() {
 // Promocionar Página
 // Campaña
 Route::resource("campaign", "PromotePage\CampaignController");
-Route::get("campaign.delete/{id}", "PromotePage\CampaignController@delete");
 // At Set
 Route::resource("ad-set", "PromotePage\AdSetController");
 

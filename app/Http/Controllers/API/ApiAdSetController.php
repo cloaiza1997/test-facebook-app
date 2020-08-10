@@ -176,4 +176,44 @@ class ApiAdSetController extends ApiCampaignsController
 
         return $list_ad_sets;
     }
+    /**
+     * Actualiza el grupo de anuncios ligado a una campaña
+     * @param number $id Id del grupo a actualizar
+     */
+    public function updateAdSet($id)
+    {
+        $found = $this->getAdSet($id);
+
+        if (!$found) {
+            $updated = false;
+        } else {
+            $fields = array();
+            $params = array(
+                'name' => $this->name,
+                'start_time' => $this->start_time . "T00:00:00-0500",
+                'end_time' => $this->end_time . "T00:00:00-0500",
+                'optimization_goal' => $this->optimization_goal,
+                'billing_event' => $this->billing_event,
+                'daily_budget' => $this->daily_budget,
+                'bid_amount' => '20',
+                // 'promoted_object' => array('page_id' => self::PAGE_ID),
+                'targeting' => array('geo_locations' => array('countries' => array('US'))),
+                'status' => 'PAUSED',
+            );
+
+            $data = [
+                // Actualiza el grupo
+                "function_call_back" => function () use ($fields, $params) {
+                    $this->ad_set->updateSelf($fields, $params);
+                },
+                "message" => "Error al actualizar el grupo de anuncios {$this->name}",
+            ];
+
+            $this->executeAction($data);
+
+            $updated = true;
+        }
+
+        return $updated;
+    }
 }

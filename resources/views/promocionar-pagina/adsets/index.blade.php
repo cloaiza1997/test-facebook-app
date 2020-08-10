@@ -30,10 +30,12 @@
                  <td>{{ $ad_set['billing_event'] }}</td>
                  <td>{{ $ad_set['created_at'] }}</td>
                  <td>
-                     <a href="{{ route('ad-set.edit', $ad_set['id']) }}" class="btn btn-primary">Ver</a>
+                     <a href="{{ route('ad-set.edit', "{$campaign->id}-{$ad_set['id']}") }}" class="btn btn-primary">Ver</a>
                  </td>
                  <td>
-                    @section('action', route('ad-set.destroy', "{$campaign->id}-{$ad_set['id']}"))
+                    @section('action')
+                        {{ route('ad-set.destroy', "{$campaign->id}-{$ad_set['id']}") }}
+                    @overwrite
                     @include('layouts.partials.form-delete')
                  </td>
              </tr>

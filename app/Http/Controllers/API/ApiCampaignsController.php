@@ -137,7 +137,8 @@ class ApiCampaignsController extends FacebookController
     /**
      * Actualiza una campaña en la API y la base de datos
      * @param number $id Id de la campaña actualizar
-     * @param string
+     * @param string $name Nombre de la campaña
+     * @param string $objective Objetivo de la camapaña
      */
     public function updateCampaign($id, $name, $objective)
     {

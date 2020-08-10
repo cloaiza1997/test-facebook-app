@@ -48,6 +48,35 @@ class AdSetController extends Controller
         return FunctionsController::returnWithMessageValidation($data);
     }
     /**
+     * Muestra la vista de edición de grupo
+     * @param string $id[id_campaign-id_ad_set] Cadena de texto que concatena el id de la campaña con el del grupo
+     */
+    public function edit($id)
+    {
+        // Se divide la cadena
+        $param = explode("-", $id);
+        // Se extrae el id de la campaña que viene de la url
+        $id_campaign = $param[0];
+        $id_ad_set = $param[1];
+
+        $fb = new ApiAdSetController();
+        // Se pasa el id de la campaña
+        $fb->id_campaign = $id_campaign;
+        // Se obtiene la campaña a la que pertenece el grupo
+        $fb->getCampaign($id_campaign);
+        $fb->getAdSet($id_ad_set);
+        // De la fecha se obtiene solo se obtiene el YYYY-MM-DD
+        $fb->ad_set->start_time = explode("T", $fb->ad_set->start_time)[0];
+        $fb->ad_set->end_time = explode("T", $fb->ad_set->end_time)[0];
+
+        return view(self::FOLDER . ".ver")->with([
+            "campaign" => $fb->campaign,
+            "ad_set" => $fb->ad_set,
+            "billing_events" => $fb::BILLING_EVENTS,
+            "optimization_goals" => $fb::OPTIMIZATION_GOALS,
+        ]);
+    }
+    /**
      * Obtiene el listado de todos los grupos relacionados a una campaña
      */
     public function getAdSets()
@@ -74,6 +103,7 @@ class AdSetController extends Controller
     public function show($id_campaign)
     {
         $fb = new ApiAdSetController();
+        // Se obtiene la campaña a la que pertenece el grupo
         $fb->getCampaign($id_campaign);
 
         return view(self::FOLDER . ".crear")->with([
@@ -92,7 +122,7 @@ class AdSetController extends Controller
         // Se instancia la clase
         $fb = new ApiAdSetController();
         // Se pasan los datos a la clase
-        $fb->id_campaign = $inputs["id_campaign"];
+        $fb->id_campaign = $id_campaign = $inputs["id_campaign"];
         $fb->name = $inputs["name"];
         $fb->start_time = $inputs["start_time"];
         $fb->end_time = $inputs["end_time"];
@@ -105,9 +135,8 @@ class AdSetController extends Controller
         if ($success) {
             // Se obtienen los id
             $id_ad = $fb->ad_set->id;
-            $id_campaign = $fb->id_campaign;
             // Se busca la campaña en la base de datos
-            $campaign = Campanhas::where("id_fb", $fb->id_campaign)->first();
+            $campaign = Campanhas::where("id_fb", $id_campaign)->first();
             // Se crea el objeto del grupo
             $obj_ad_set = new GruposAnuncios();
 
@@ -123,14 +152,57 @@ class AdSetController extends Controller
             $success = $obj_ad_set->save();
         } else {
             $id_ad = "";
-            $id_campaign = "";
         }
 
         $data = [
             "success" => $success,
             "text" => "Creación de Grupo de Anuncios \"{$id_ad}\"",
-            "return_function" => function () use ($id_campaign) {
-                return redirect()->route("ad-set.show", $id_campaign);
+            "return_function" => function () use ($id_campaign, $id_ad) {
+                return redirect()->route("ad-set.edit", "$id_campaign-$id_ad");
+            }
+        ];
+
+        return FunctionsController::returnWithMessageValidation($data);
+    }
+    /**
+     * Actualiza un grupo de avisos en la API y en la base de datos
+     * @param Request $request Datos del formulario
+     */
+    public function update(Request $request, $id)
+    {
+        $inputs = $request->all();
+        // Se instancia la clase
+        $fb = new ApiAdSetController();
+        // Se pasan los datos a la clase
+        $fb->id_campaign = $id_campaign = $inputs["id_campaign"];
+        $fb->name = $inputs["name"];
+        $fb->start_time = $inputs["start_time"];
+        $fb->end_time = $inputs["end_time"];
+        $fb->billing_event = $inputs["billing_event"];
+        $fb->optimization_goal = $inputs["optimization_goal"];
+        $fb->daily_budget = $inputs["daily_budget"];
+
+        $success = $fb->updateAdSet($id);
+        // + Grupo creado en la API. Se crea en la base de datos
+        if ($success) {
+            // Se búsca el objeto
+            $ad_set = GruposAnuncios::where("id_fb", $id)->first();
+            // Se actualizan los campos
+            $ad_set->nombre = $fb->name;
+            $ad_set->inicio = $fb->start_time;
+            $ad_set->fin = $fb->end_time;
+            $ad_set->evento_facturacion = $fb->billing_event;
+            $ad_set->objetivo_optimizacion = $fb->optimization_goal;
+            $ad_set->presupuesto_diario = $fb->daily_budget;
+
+            $success = $ad_set->save();
+        }
+
+        $data = [
+            "success" => $success,
+            "text" => "Actualización de Grupo de Anuncios \"{$id}\"",
+            "return_function" => function () use ($id_campaign, $id) {
+                return redirect()->route("ad-set.edit", "$id_campaign-$id");
             }
         ];
 

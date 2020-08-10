@@ -32,7 +32,9 @@
                         <a href="{{ route('campaign.edit', $campaign['id']) }}" class="btn btn-primary">Ver</a>
                     </td>
                     <td>
-                        @section('action', route('campaign.destroy', $campaign['id']))
+                        @section('action')
+                            {{ route('campaign.destroy', $campaign['id']) }}
+                        @overwrite
                         @include('layouts.partials.form-delete')
                     </td>
                 </tr>
