@@ -14,7 +14,7 @@ Página de Facebook utilizada
 
     Se requiere del Id de la publicación de Facebook para crear un AdCreative
 
-• <a target="_blank"  href="https://www.facebook.com/592692364752928/photos/a.594977174524447/595049877850510/?type=3&eid=ARAbRKn-XczsnqDa1Y6zNjtO_EGmzqvlG_69sTHhoWHdTFbmPQtcrXX3nej-LscG83vW9BXob1STTjlW&__tn__=EHH-R">
+• <a target="_blank"  href="https://www.facebook.com/permalink.php?story_fbid=595050024517162&id=592692364752928">
 Ejemplo de publicación
 </a>
 
